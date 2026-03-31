@@ -26,16 +26,38 @@ This adapter brings those workflows to Antigravity using the **"Non-polluting Pr
 
 ## ⚙️ Getting Started
 
-### 1. Setup
-Clone the repository and run the setup script.
-(Requires Node.js for the build runners)
+### 1. Project-Level Installation (Recommended)
+Since AI behavior (prompts, skill routing, learnings) is inherently domain-specific, we highly recommend integrating this adapter **per-project (at the directory level)**.
+
+Navigate to your target project (e.g., `project-example/`) and add this repository as a Git Submodule. 
+*(Note: You can place this submodule in any directory like `tools`, `vendor`, or `scripts`. The internal setup script dynamically resolves all absolute paths, so there is **zero risk of breakage** regardless of what you name the folder. We use `tools/` in this example.)*
 
 ```bash
-npm run setup
+cd project-example
+mkdir -p tools
+git submodule add https://github.com/your-org/gstack_antigravity.git tools/gstack_antigravity
 ```
-- This triggers internal dependency builds (if `bun` is present) and automatically funnels the original skills through `src/convert-skills.js`, outputting the transformed MD files into `.agents/workflows/`.
 
-### 2. Using Workflows
+### 2. Run Setup Scripts
+Navigate into the newly added submodule directory and run the environment setup script. This resolves dependencies, fetches the original GStack submodule, and bakes the exact absolute paths of your chosen directory into the workflows.
+
+```bash
+cd tools/gstack_antigravity
+```
+- **Windows**: Double-click `setup.bat` or run `.\setup.bat`
+- **macOS / Linux**: Run `bash setup.sh`
+
+### 3. Expose Workflows
+If successful, the setup creates a `.agents/workflows/` directory. To activate these for your main project, either copy or symlink the folder to the root of your project (`project-example/`).
+
+```bash
+# Example: Copy the workflows to the project root
+cd ../.. # Go back to the root of project-example
+cp -r tools/gstack_antigravity/.agents .
+```
+No restart is required! Antigravity will automatically detect the `.agents/workflows/` directory. Your AI engineering slash commands are now fully operational for this project.
+
+### 4. Using Workflows
 Open your Antigravity-supported environment or terminal. Simply type a slash command (followed by your query if needed) to unleash the agent!
 
 - **`/qa [URL]`** : Let the subagent systematically navigate, test, and find bugs in your UI visually without manual scraping.

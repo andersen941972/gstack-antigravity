@@ -63,18 +63,31 @@ function processFile(filePath, skillName) {
     const finalName = name || skillName;
     const finalDescription = description || `Gstack skill for ${finalName}`;
 
-    const processedBody = body.replace(/~\/\.claude\/skills\/gstack\//g, './gstack/');
+    // Replace legacy paths and local ./gstack paths with the project's dynamically resolved local installation path
+    const LOCAL_GSTACK_PATH = path.join(__dirname, '..', 'gstack/').replace(/\\/g, '/');
+    
+    let processedBody = body
+        .replace(/~\/\.claude\/skills\/gstack\//g, LOCAL_GSTACK_PATH)
+        .replace(/\.\/gstack\//g, LOCAL_GSTACK_PATH)
+        .replace(/CLAUDE\.md/g, 'GEMINI.md');
 
-    const guideline = `## 🌐 Antigravity Browser Guidelines
+    const guideline = `## 🌐 Antigravity Browser & Command Guidelines
+
+### 🖥️ ブラウザ操作について
 **CRITICAL:** 以下のドキュメントにはレガシーな \`$B\` コマンドによるブラウザ操作手順が記載されていますが、現在の環境では \`$B\` コマンドは使用しないでください。
 代わりに、必ず組み込みの **\`browser_subagent\`** ツールを利用してください。
-
-以下のような \`$B\` コマンドの例を見た場合は、それを \`browser_subagent\` の \`Task\` （自然言語）に翻訳して自律エージェントに委譲してください。
 - \`$B goto <url>\` -> "指定のURLにアクセスする"
 - \`$B click @e3\` や \`$B fill ...\` -> "該当の要素をクリックし、フォームを入力する"
-- \`$B snapshot ...\` -> \`browser_subagent\` は自動的にDOMとスクリーンショットを取得するため個別のスナップショットコマンドは不要です。
-- \`$B screenshot ...\` -> \`browser_subagent\` の実行結果を確認してください。
-- \`$B js / console / network\` -> ページの調査を \`browser_subagent\` への指示に含めてください。
+- \`$B snapshot / screenshot\` -> \`browser_subagent\` は自動で状態を記録するため不要です。
+
+### 🐚 Bashコマンド（Preamble等）の安全な実行方法
+**CRITICAL:** 複数行のbashスクリプト（特に \`Preamble\` などのブロック）を \`run_command\` で実行する際、改行を消して1行に繋げてしまうと構文エラーで失敗します。
+**絶対にそのまま1つのコマンド文字列として実行しないでください。**
+
+**【必須手順】**
+1. スクリプトのブロックをそのまま（改行を保持したまま）テキストとして \`write_to_file\` ツールを使用し、一時ファイル（例: \`/tmp/gstack-preamble.sh\` またはカレントディレクトリの \`.gstack-temp.sh\`）に保存してください。
+2. その後、\`run_command\` で \`bash /tmp/gstack-preamble.sh\` を実行してください。
+3. 実行後は \`rm /tmp/gstack-preamble.sh\` などで一時ファイルを削除して構いません。
 
 ---
 
@@ -86,6 +99,7 @@ description: ${finalName} - ${finalDescription}
 // turbo-all
 
 ${guideline}${processedBody}`;
+
 
     const outputPath = path.join(OUTPUT_DIR, `${skillName}.md`);
     fs.writeFileSync(outputPath, outputContent);
