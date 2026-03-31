@@ -45,7 +45,8 @@ dist/
 build/
 
 # Original .gitignore rules for this project
-.agents/
+.agents/*
+!.agents/workflows/
 .serena/
 !docs/
 !src/
