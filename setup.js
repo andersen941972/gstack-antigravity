@@ -4,9 +4,36 @@ const path = require('path');
 
 const ROOT_DIR = __dirname;
 const GSTACK_DIR = path.join(ROOT_DIR, 'gstack');
-const PARENT_DIR = path.resolve(ROOT_DIR, '..');
 
+/**
+ * Finds the project root (superproject root if this is a submodule)
+ */
+function findProjectRoot() {
+  try {
+    // Try getting the superproject root first (standard for submodules)
+    const superRoot = execSync('git rev-parse --show-superproject-working-tree', { cwd: ROOT_DIR }).toString().trim();
+    if (superRoot) return superRoot;
+  } catch (e) {
+    // git command failed or unsupported
+  }
+
+  // Fallback: search upwards for the first .git directory
+  let current = ROOT_DIR;
+  while (current !== path.parse(current).root) {
+    const parent = path.resolve(current, '..');
+    if (fs.existsSync(path.join(parent, '.git'))) {
+      return parent;
+    }
+    current = parent;
+  }
+
+  // Default to one level up if all else fails
+  return path.resolve(ROOT_DIR, '..');
+}
+
+const PROJECT_ROOT = findProjectRoot();
 console.log('--- Google Antigravity for Gstack Setup ---');
+console.log(`[i] Target project root: ${PROJECT_ROOT}`);
 
 // 1. Git Submodule Initialization
 if (!fs.existsSync(path.join(GSTACK_DIR, 'SKILL.md'))) {
@@ -27,7 +54,6 @@ try {
   console.log('[✓] Bun detected.');
 } catch (e) {
   console.log('[!] Bun not detected. Gstack native binaries (browse daemon) cannot be built.');
-  console.log('    To use full browser features, please install Bun from https://bun.sh/');
 }
 
 // 3. Gstack Build
@@ -56,34 +82,33 @@ try {
 }
 
 // 5. GEMINI.md Injector
-console.log('\n[Antigravity] Injecting routing rules to parent project...');
+console.log(`\n[Antigravity] Injecting routing rules to project root...`);
 const adapterGeminiPath = path.join(ROOT_DIR, 'GEMINI.md');
-const parentGeminiPath = path.join(PARENT_DIR, 'GEMINI.md');
+const projectGeminiPath = path.join(PROJECT_ROOT, 'GEMINI.md');
 
 if (fs.existsSync(adapterGeminiPath)) {
   const adapterGemini = fs.readFileSync(adapterGeminiPath, 'utf-8');
-  // Extract Skill Routing section (from ## スキル・ルーティング to before the next ##)
   const routingMatch = adapterGemini.match(/(## スキル・ルーティング[\s\S]*?)(?=##|$)/);
   
   if (routingMatch) {
     const routingContent = routingMatch[1].trim();
     
-    if (fs.existsSync(parentGeminiPath)) {
-      const parentGemini = fs.readFileSync(parentGeminiPath, 'utf-8');
-      if (parentGemini.includes('invoke qa') || parentGemini.includes('invoke review')) {
-        console.log('[i] Routing rules already present in parent GEMINI.md. Skipping.');
+    if (fs.existsSync(projectGeminiPath)) {
+      const projectGemini = fs.readFileSync(projectGeminiPath, 'utf-8');
+      if (projectGemini.includes('invoke qa') || projectGemini.includes('invoke review')) {
+        console.log('[i] Routing rules already present in GEMINI.md. Skipping.');
       } else {
         // Backup
-        fs.writeFileSync(parentGeminiPath + '.bak', parentGemini);
+        fs.writeFileSync(projectGeminiPath + '.bak', projectGemini);
         // Append
-        fs.appendFileSync(parentGeminiPath, '\n\n' + routingContent + '\n');
-        console.log('[✓] Routing rules appended to parent GEMINI.md (Backup created).');
+        fs.appendFileSync(projectGeminiPath, '\n\n' + routingContent + '\n');
+        console.log(`[✓] Routing rules appended to ${projectGeminiPath} (Backup created).`);
       }
     } else {
       // Create new
       const newGemini = `# Gemini Project Context\n\n${routingContent}\n`;
-      fs.writeFileSync(parentGeminiPath, newGemini);
-      console.log('[✓] Created new GEMINI.md in parent project with routing rules.');
+      fs.writeFileSync(projectGeminiPath, newGemini);
+      console.log(`[✓] Created new GEMINI.md in ${PROJECT_ROOT} with routing rules.`);
     }
   }
 }
