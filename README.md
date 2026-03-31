@@ -37,6 +37,7 @@ Navigate to your target project (e.g., `project-example/`) and add this reposito
 git init
 
 # Add the submodule:
+git submodule add https://github.com/andersen941972/gstack-antigravity.git tools/gstack_antigravity
 ```
 
 ### 2. Run Setup Scripts

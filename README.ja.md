@@ -40,6 +40,7 @@ AIの挙動（プロンプトやルーティングの設定）はリポジトリ
 git init
 
 # サブモジュールの追加:
+git submodule add https://github.com/andersen941972/gstack-antigravity.git tools/gstack_antigravity
 ```
 
 ### 2. セットアップ・スクリプトの実行
