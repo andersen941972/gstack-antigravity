@@ -50,14 +50,11 @@ cd tools/gstack_antigravity
 - **macOS / Linux**: Run `bash setup.sh`
 
 ### 3. Expose Workflows
-If successful, the setup creates a `.agents/workflows/` directory. To activate these for your main project, either copy or symlink the folder to the root of your project (`project-example/`).
+After a successful setup, Antigravity-formatted workflows (Markdown) are generated in the `.agents/workflows/` directory within the submodule.
 
-```bash
-# Example: Copy the workflows to the project root
-cd ../.. # Go back to the root of project-example
-cp -r tools/gstack_antigravity/.agents .
-```
-No restart is required! Antigravity will automatically detect the `.agents/workflows/` directory. Your AI engineering slash commands are now fully operational for this project.
+Antigravity (Serena MCP) automatically scans all directories in your project, so **no manual copying or symlinking is required**. All features will be available immediately.
+
+*(💡 Note: If the slash commands (e.g., `/qa`) do not appear in the chat input, please restart your editor or Antigravity to refresh the index.)*
 
 ### 4. Using Workflows
 Open your Antigravity-supported environment or terminal. Simply type a slash command (followed by your query if needed) to unleash the agent!
