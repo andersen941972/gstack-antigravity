@@ -54,10 +54,10 @@ After a successful setup, Antigravity-formatted workflows (Markdown) are generat
 
 Antigravity (Serena MCP) automatically scans all directories in your project, so **no manual copying or symlinking is required**. All features will be available immediately.
 
-*(💡 Note: If the slash commands (e.g., `/qa`) do not appear in the chat input, please restart your editor or Antigravity to refresh the index.)*
+*(💡 Note: If the slash commands (e.g., `/qa`) do not appear in the chat input, please restart Antigravity to refresh the index.)*
 
 ### 4. Using Workflows
-Open your Antigravity-supported environment or terminal. Simply type a slash command (followed by your query if needed) to unleash the agent!
+Open your Antigravity chat prompt and simply type a slash command (followed by your query if needed) to unleash the agent!
 
 - **`/qa [URL]`** : Let the subagent systematically navigate, test, and find bugs in your UI visually without manual scraping.
 - **`/review`** : Analyze your uncommitted changes (or git diff) simulating a rigorous Senior Engineer checking for SQL safety, LLM trust boundaries, and concurrency issues.
