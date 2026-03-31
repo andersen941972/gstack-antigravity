@@ -1,0 +1,56 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+node_modules/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# IDEs and Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-workspace
+.project
+.settings/
+
+# Environment variables (Critically important to prevent personal info leak)
+.env
+.env.test
+.env.production
+.env.local
+.env.*.local
+Git-data.md
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Next.js / framework builds
+.next
+out
+dist/
+build/
+
+# Original .gitignore rules for this project
+.agents/
+!docs/
+!src/
+!gstack/
+
+# Ignore built artifacts or dependencies inside the read-only gstack folder
+gstack/node_modules/
+gstack/dist/
+gstack/build/

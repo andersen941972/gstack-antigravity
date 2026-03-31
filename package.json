@@ -1,0 +1,18 @@
+{
+  "name": "gstack-antigravity",
+  "version": "1.0.0",
+  "description": "Antigravity adapter for gstack workflows",
+  "main": "src/convert-skills.js",
+  "scripts": {
+    "setup": "node setup.js",
+    "build-skills": "node src/convert-skills.js"
+  },
+  "keywords": [
+    "antigravity",
+    "gstack",
+    "ai-agent",
+    "automation"
+  ],
+  "author": "",
+  "license": "MIT"
+}
