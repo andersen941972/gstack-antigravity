@@ -3,7 +3,9 @@ const path = require('path');
 
 const ROOT_DIR = path.resolve(__dirname, '..');
 const GSTACK_DIR = path.join(ROOT_DIR, 'gstack');
-const OUTPUT_DIR = path.join(ROOT_DIR, '.agents', 'workflows');
+
+// Determine output directory: 1. CLI Arg, 2. Env Var, 3. Default local
+const OUTPUT_DIR = process.argv[2] || process.env.OUTPUT_DIR || path.join(ROOT_DIR, '.agents', 'workflows');
 
 // Ensure output directory exists
 if (!fs.existsSync(OUTPUT_DIR)) {
@@ -20,12 +22,10 @@ function extractFrontmatter(content) {
     const nameMatch = fm.match(/^name:\s*(.+)$/m);
     const name = nameMatch ? nameMatch[1].trim() : '';
 
-    // Description can be multi-line
     let description = '';
     const descMatch = fm.match(/^description:\s*(?:\|?\s*\n([\s\S]*?)(?=\n\w+:|$)|(.+)$)/m);
     if (descMatch) {
         description = (descMatch[1] || descMatch[2] || '').trim();
-        // Clean up leading spaces if it was a block scalar
         description = description.split('\n').map(line => line.replace(/^\s{2}/, '')).join(' ').replace(/\s+/g, ' ');
     }
 
@@ -34,6 +34,7 @@ function extractFrontmatter(content) {
 
 function convert() {
     console.log(`Searching for SKILL.md in ${GSTACK_DIR}...`);
+    console.log(`Output destination: ${OUTPUT_DIR}`);
     
     // Process root SKILL.md
     const rootSkill = path.join(GSTACK_DIR, 'SKILL.md');
@@ -63,7 +64,6 @@ function processFile(filePath, skillName) {
     const finalName = name || skillName;
     const finalDescription = description || `Gstack skill for ${finalName}`;
 
-    // Replace legacy paths and local ./gstack paths with the project's dynamically resolved local installation path
     const LOCAL_GSTACK_PATH = path.join(__dirname, '..', 'gstack/').replace(/\\/g, '/');
     
     let processedBody = body

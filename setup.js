@@ -74,9 +74,21 @@ if (fs.existsSync(GSTACK_DIR)) {
 
 // 4. Workflow Conversion
 console.log('\n[Antigravity] Generating workflows...');
+const workflowDest = (PROJECT_ROOT === ROOT_DIR) 
+  ? path.join(ROOT_DIR, '.agents', 'workflows')
+  : path.join(PROJECT_ROOT, '.agents', 'workflows');
+
+if (!fs.existsSync(workflowDest)) {
+  fs.mkdirSync(workflowDest, { recursive: true });
+}
+
 try {
-  execSync('npm run build-skills', { cwd: ROOT_DIR, stdio: 'inherit' });
-  console.log('[✓] Workflow generation complete.');
+  // Pass workflowDest as a direct argument for maximum robustness on Windows
+  execSync(`npm run build-skills -- "${workflowDest}"`, { 
+    cwd: ROOT_DIR, 
+    stdio: 'inherit'
+  });
+  console.log(`[✓] Workflow generation complete. (Dest: ${workflowDest})`);
 } catch (e) {
   console.log('[!] Workflow generation failed.');
 }
