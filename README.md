@@ -30,12 +30,13 @@ This adapter brings those workflows to Antigravity using the **"Non-polluting Pr
 Since AI behavior (prompts, skill routing, learnings) is inherently domain-specific, we highly recommend integrating this adapter **per-project (at the directory level)**.
 
 Navigate to your target project (e.g., `project-example/`) and add this repository as a Git Submodule. 
-*(Note: You can place this submodule in any directory like `tools`, `vendor`, or `scripts`. The internal setup script dynamically resolves all absolute paths, so there is **zero risk of breakage** regardless of what you name the folder. We use `tools/` in this example.)*
+*(Note: You can place this submodule in any directory like `tools`, `vendor`, or `scripts`. The internal setup script dynamically resolves all absolute paths, so there is **zero risk of breakage** regardless of what you name the folder. We use `tools/` in this example. If your project is not yet a Git repository, run `git init` first.)*
 
 ```bash
-cd project-example
-mkdir -p tools
-git submodule add https://github.com/andersen941972/gstack-antigravity.git tools/gstack_antigravity
+# If you haven't initialized git in your project yet:
+git init
+
+# Add the submodule:
 ```
 
 ### 2. Run Setup Scripts
