@@ -27,7 +27,12 @@ GitHub公開を見据え、以下の構造を採用します：
 - **アウトプット:** `.agents/workflows/[skill-name].md` として出力する。
 
 ### 3. バッチ実行用パッケージ/スクリプトの整備
-- プロジェクトルートに簡素な `package.json` 等を配置し、`npm run build-skills` のようなコマンド一発で `gstack` の最新内容が変換されて `.agents/workflows` に展開されるようにします。
+- プロジェクトルートに『package.json』等の配置。
+- 『npm run build-skills』で、サブモジュールからAntigravity向けに最新のワークフローを一括変換して出力。
+
+### 4. ワークフロー依存関係の調査とドキュメント化
+- **重要:** 各ワークフロー（`/plan-ceo-review`, `/review`等）が実行の前提としているファイル（例: `implementation_plan.md`）をすべて洗い出します。
+- これを『README.ja.md』または『WORKFLOWS_GUIDE.ja.md』に「前提条件」としてセクションを設け、明文化します。
 
 ## 検証計画
 - `node src/convert-skills.js` を実行し、`gstack/` ディレクトリ内部が一切変更されていない（Gitステータスに変更が出ない）ことを確認します。
