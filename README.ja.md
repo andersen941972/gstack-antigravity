@@ -47,7 +47,10 @@ git submodule add https://github.com/andersen941972/gstack-antigravity.git tools
 追加したサブモジュールのディレクトリへ移動し、`setup` を実行するだけで、すべての依存関係の解決とワークフローの生成、そして親プロジェクトへのルーティング・ルールの注入までが自動的に行われます。
 
 ```bash
-# ワンライナー（推奨）:
+# PowerShell (推奨):
+cd tools/gstack_antigravity; node setup.js
+
+# コマンドプロンプト (CMD):
 cd tools/gstack_antigravity && node setup.js
 ```
 *(💡 Windows で Node.js がインストールされている場合、`setup.bat` をダブルクリックするだけでも実行可能です。)*
