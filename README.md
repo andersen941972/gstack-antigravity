@@ -35,7 +35,7 @@ Navigate to your target project (e.g., `project-example/`) and add this reposito
 ```bash
 cd project-example
 mkdir -p tools
-git submodule add https://github.com/your-org/gstack_antigravity.git tools/gstack_antigravity
+git submodule add https://github.com/andersen941972/gstack-antigravity.git tools/gstack_antigravity
 ```
 
 ### 2. Run Setup Scripts

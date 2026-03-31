@@ -38,7 +38,7 @@ AIの挙動（プロンプトやルーティングの設定）はリポジトリ
 ```bash
 cd project-example
 mkdir -p tools
-git submodule add https://github.com/your-org/gstack_antigravity.git tools/gstack_antigravity
+git submodule add https://github.com/andersen941972/gstack-antigravity.git tools/gstack_antigravity
 ```
 
 ### 2. セットアップ・スクリプトの実行
