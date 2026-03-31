@@ -100,27 +100,28 @@ const projectGeminiPath = path.join(PROJECT_ROOT, 'GEMINI.md');
 
 if (fs.existsSync(adapterGeminiPath)) {
   const adapterGemini = fs.readFileSync(adapterGeminiPath, 'utf-8');
-  const routingMatch = adapterGemini.match(/(## スキル・ルーティング[\s\S]*?)(?=##|$)/);
+  // Extract everything from ## スキル・ルーティング to the end
+  const routingMatch = adapterGemini.match(/(## スキル・ルーティング[\s\S]*)$/);
   
   if (routingMatch) {
     const routingContent = routingMatch[1].trim();
     
     if (fs.existsSync(projectGeminiPath)) {
       const projectGemini = fs.readFileSync(projectGeminiPath, 'utf-8');
-      if (projectGemini.includes('invoke qa') || projectGemini.includes('invoke review')) {
-        console.log('[i] Routing rules already present in GEMINI.md. Skipping.');
+      if (projectGemini.includes('GStack Workflow') || projectGemini.includes('invoke qa')) {
+        console.log('[i] Routing rules or guidelines already present in GEMINI.md. Skipping.');
       } else {
         // Backup
         fs.writeFileSync(projectGeminiPath + '.bak', projectGemini);
         // Append
         fs.appendFileSync(projectGeminiPath, '\n\n' + routingContent + '\n');
-        console.log(`[✓] Routing rules appended to ${projectGeminiPath} (Backup created).`);
+        console.log(`[✓] Routing rules and guidelines appended to ${projectGeminiPath} (Backup created).`);
       }
     } else {
       // Create new
       const newGemini = `# Gemini Project Context\n\n${routingContent}\n`;
       fs.writeFileSync(projectGeminiPath, newGemini);
-      console.log(`[✓] Created new GEMINI.md in ${PROJECT_ROOT} with routing rules.`);
+      console.log(`[✓] Created new GEMINI.md in ${PROJECT_ROOT} with routing rules and guidelines.`);
     }
   }
 }
