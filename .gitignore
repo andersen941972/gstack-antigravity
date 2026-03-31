@@ -46,6 +46,7 @@ build/
 
 # Original .gitignore rules for this project
 .agents/
+.serena/
 !docs/
 !src/
 !gstack/
