@@ -48,4 +48,5 @@ try {
 
 console.log('\n--- Setup Finished! ---');
 console.log('Generated workflows are available in .agents/workflows/');
-console.log('To use them, Antigravity should automatically detect the .agents directory.');
+console.log('To activate them, please copy or symlink .agents to your project root.');
+console.log('For more details, see docs/WORKFLOWS_GUIDE.ja.md.');

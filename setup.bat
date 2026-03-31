@@ -26,7 +26,7 @@ if %ERRORLEVEL% neq 0 goto error
 echo.
 echo --- Setup Successful! ---
 echo.
-echo Tip: Use "npm run global:install" to use these workflows in all projects.
+echo Tip: Check docs/WORKFLOWS_GUIDE.ja.md for more information on available workflows.
 echo.
 pause
 exit /b 0
