@@ -44,6 +44,36 @@ Open your Antigravity-supported environment or terminal. Simply type a slash com
 
 ---
 
+## 🚀 Available Workflows (Slash Commands)
+
+Simply type these commands in your Antigravity-supported chat prompt to unleash advanced autonomous workflows from GStack.
+
+| Command | Description |
+| :--- | :--- |
+| `/autoplan` | **Auto-review Pipeline**: Conducts deep deliberation from CEO, Design, and Engineering perspectives before you start coding. |
+| `/review` | **PR Review**: Analyzes your code diff through the eyes of a Senior Engineer for SQL safety, logic bugs, and trust boundaries. |
+| `/qa` | **Autonomous QA**: Let the subagent systematically navigate, test, and fix bugs in your UI using the browser subagent. |
+| `/qa-only` | **Report-only QA**: Runs the same systematic tests as `/qa` but only produces a report without attempting fixes. |
+| `/plan-ceo-review` | **CEO Mode**: Rethinks the plan with focus on product strategy and "10-star" user experiences. |
+| `/plan-design-review` | **Design Review**: Evaluates the plan for UI/UX consistency, micro-animations, and modern aesthetics. |
+| `/plan-eng-review` | **Engineering Review**: Locks in the technical execution plan, focusing on architecture and testability. |
+| `/benchmark` | **Perf Benchmarking**: Detects performance regressions using multiple browser-led test passes. |
+| `/canary` | **Canary Monitoring**: Watches your live application post-deploy for console errors and unexpected behavior. |
+| `/careful` | **Safety Guardrails**: Provides interactive warnings before executing potentially destructive commands like `rm -rf`. |
+| `/freeze` | **Directory Freeze**: Restricts the AI's file edits to a specific directory boundary for the current session. |
+| `/unfreeze` | **Clear Boundary**: Lift the edit restrictions set by the `/freeze` command. |
+| `/learn` | **Learning Management**: Review, search, prune, and export specific project insights ("Learnings"). |
+| `/retro` | **Weekly Retrospective**: Analyzes your commit history and workflow patterns for an engineering review. |
+| `/browse` / `/gstack` | **Browser Tools**: Quick headless browser launching for manual or autonomous site dogfooding. |
+| `/connect-chrome` | **Real Chrome Integration**: Connects to your real Chromium browser with the side panel extension loaded. |
+| `/setup-browser-cookies` | **Cookie Sync**: Imports session cookies from your browser to bypass auth in headless testing. |
+| `/land-and-deploy` | **Deployment Flow**: Automates merging PRs, waiting for CI, and shipping to production. |
+| `/setup-deploy` | **Deploy Config**: Interactive setup for your target deployment environment for `/land-and-deploy`. |
+| `/document-release` | **Auto Documentation**: Updates project-wide docs and READMEs automatically after a successful release. |
+| `/gstack-upgrade` | **Core Upgrade**: Checks for and performs a safe upgrade of the underlying GStack core. |
+
+---
+
 ## 📂 Repository Structure
 
 - `gstack/` - Original gstack definitions (Read-only, do not modify)
