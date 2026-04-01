@@ -8,26 +8,68 @@ const GSTACK_DIR = path.join(ROOT_DIR, 'gstack');
 /**
  * Finds the project root (superproject root if this is a submodule)
  */
+/**
+ * Finds the project root (superproject root if this is a submodule)
+ * Robust version for multi-language (Polyglot) environments.
+ */
 function findProjectRoot() {
   try {
-    // Try getting the superproject root first (standard for submodules)
+    // 1. Try getting the superproject root first (standard for submodules)
     const superRoot = execSync('git rev-parse --show-superproject-working-tree', { cwd: ROOT_DIR }).toString().trim();
-    if (superRoot) return superRoot;
+    if (superRoot && fs.existsSync(superRoot)) {
+      return superRoot;
+    }
   } catch (e) {
     // git command failed or unsupported
   }
 
-  // Fallback: search upwards for the first .git directory
+  // Fallback: search upwards for project signals
   let current = ROOT_DIR;
+  let candidates = [];
+
   while (current !== path.parse(current).root) {
     const parent = path.resolve(current, '..');
-    if (fs.existsSync(path.join(parent, '.git'))) {
-      return parent;
+    
+    // Safety: Skip the adapter directory itself if it accidentally contains signs
+    if (path.basename(parent) === 'gstack_antigravity') {
+      current = parent;
+      continue;
     }
+
+    // A. Explicit Marker (Highest Priority)
+    if (fs.existsSync(path.join(parent, 'project-root.txt')) || 
+        fs.existsSync(path.join(parent, '.gstack-root'))) {
+      return parent; 
+    }
+
+    // B. Polyglot & Generic signals
+    const signals = [
+      '.serena',        // Serena Antigravity
+      'GEMINI.md',       // Antigravity Guideline
+      'package.json',   // Node.js
+      'requirements.txt', // Python
+      'pyproject.toml',  // Python (Modern)
+      'go.mod',         // Go
+      '.vscode',        // VS Code Workspace
+      '.git',           // Parent Git Repo (Directory)
+    ];
+
+    const foundSignal = signals.some(sig => {
+      const p = path.join(parent, sig);
+      if (!fs.existsSync(p)) return false;
+      // .git must be a directory to be a parent root
+      if (sig === '.git') return fs.lstatSync(p).isDirectory();
+      return true;
+    });
+
+    if (foundSignal) {
+      return parent; // Return the closest (deepest) root found
+    }
+    
     current = parent;
   }
 
-  // Default to one level up if all else fails
+  // Fallback to one level up as a safe default
   return path.resolve(ROOT_DIR, '..');
 }
 
