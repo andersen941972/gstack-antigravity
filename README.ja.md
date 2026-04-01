@@ -152,7 +152,20 @@ Antigravity環境のチャット欄で以下のコマンドを入力すること
 
 ---
 
-## 🤝 貢献とコミュニティ (Contributing)
+## 📊 実行事例（Case Studies）
+
+GStack Antigravity を導入することで、AI エージェントがプロジェクトをどのように解析し、支援するかを実例とともに紹介します。
+これらは、実際の開発現場で得られた高密度な回答をベースに構成された「生きた事例」です。
+
+- **[/learn](./docs/examples/LEARN_CASE_STUDY.ja.md)**: プロジェクトの全容と技術スタックの深い理解。
+- **[/qa](./docs/examples/QA_CASE_STUDY.ja.md)**: クリティカルなバグの発見と修正案の提示。
+- **[/review](./docs/examples/REVIEW_CASE_STUDY.ja.md)**: セキュリティとパフォーマンスに踏み込んだレビュー。
+- **[/investigate](./docs/examples/INVESTIGATE_CASE_STUDY.ja.md)**: 根本原因の特定と再発防止策の策定。
+- **[その他の事例一覧はこちら](./docs/examples/README.ja.md)**
+
+---
+
+## 🤝 貢献（Contributing）
 
 私たちは開発者が「何かを作る」プロセスを高速化することを全力で支援します。
 プルリクエスト、Issue、ご意見等はお気軽にどうぞ！  

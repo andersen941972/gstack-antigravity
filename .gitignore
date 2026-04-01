@@ -56,3 +56,16 @@ build/
 gstack/node_modules/
 gstack/dist/
 gstack/build/
+
+# Scratch and Task management (Internal developer notes)
+task.md
+task_*.md
+implementation_plan.md
+analysis_results.md
+HANDOVER.md
+research_notes.md
+.gstack-preamble.sh
+
+# Test directories
+temp-test/
+tmp_test_root/
