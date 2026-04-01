@@ -58,6 +58,7 @@ gstack/dist/
 gstack/build/
 
 # Scratch and Task management (Internal developer notes)
+_internal/
 task.md
 task_*.md
 implementation_plan.md
