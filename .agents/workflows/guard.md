@@ -1,5 +1,6 @@
 ---
-description: guard - Full safety mode: destructive command warnings + directory-scoped edits.
+name: guard
+description: "Full safety mode: destructive command warnings + directory-scoped edits."
 ---
 // turbo-all
 

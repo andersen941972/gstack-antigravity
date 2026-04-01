@@ -1,5 +1,6 @@
 ---
-description: unfreeze - Clear the freeze boundary set by /freeze, allowing edits to all directories
+name: unfreeze
+description: "Clear the freeze boundary set by /freeze, allowing edits to all directories"
 ---
 // turbo-all
 

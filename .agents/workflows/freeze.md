@@ -1,5 +1,6 @@
 ---
-description: freeze - Restrict file edits to a specific directory for the session. Blocks Edit and
+name: freeze
+description: "Restrict file edits to a specific directory for the session. Blocks Edit and"
 ---
 // turbo-all
 

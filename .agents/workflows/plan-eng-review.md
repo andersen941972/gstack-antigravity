@@ -1,5 +1,6 @@
 ---
-description: plan-eng-review - Eng manager-mode plan review. Lock in the execution plan — architecture,
+name: plan-eng-review
+description: "Eng manager-mode plan review. Lock in the execution plan — architecture,"
 ---
 // turbo-all
 
@@ -29,27 +30,27 @@ description: plan-eng-review - Eng manager-mode plan review. Lock in the executi
 ## Preamble (run first)
 
 ```bash
-_UPD=$(C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-update-check 2>/dev/null || .claude/skills/gstack/bin/gstack-update-check 2>/dev/null || true)
+_UPD=$(J:/myproject/gstack_antigravity/gstack/bin/gstack-update-check 2>/dev/null || .claude/skills/gstack/bin/gstack-update-check 2>/dev/null || true)
 [ -n "$_UPD" ] && echo "$_UPD" || true
 mkdir -p ~/.gstack/sessions
 touch ~/.gstack/sessions/"$PPID"
 _SESSIONS=$(find ~/.gstack/sessions -mmin -120 -type f 2>/dev/null | wc -l | tr -d ' ')
 find ~/.gstack/sessions -mmin +120 -type f -exec rm {} + 2>/dev/null || true
-_CONTRIB=$(C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-config get gstack_contributor 2>/dev/null || true)
-_PROACTIVE=$(C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-config get proactive 2>/dev/null || echo "true")
+_CONTRIB=$(J:/myproject/gstack_antigravity/gstack/bin/gstack-config get gstack_contributor 2>/dev/null || true)
+_PROACTIVE=$(J:/myproject/gstack_antigravity/gstack/bin/gstack-config get proactive 2>/dev/null || echo "true")
 _PROACTIVE_PROMPTED=$([ -f ~/.gstack/.proactive-prompted ] && echo "yes" || echo "no")
 _BRANCH=$(git branch --show-current 2>/dev/null || echo "unknown")
 echo "BRANCH: $_BRANCH"
-_SKILL_PREFIX=$(C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-config get skill_prefix 2>/dev/null || echo "false")
+_SKILL_PREFIX=$(J:/myproject/gstack_antigravity/gstack/bin/gstack-config get skill_prefix 2>/dev/null || echo "false")
 echo "PROACTIVE: $_PROACTIVE"
 echo "PROACTIVE_PROMPTED: $_PROACTIVE_PROMPTED"
 echo "SKILL_PREFIX: $_SKILL_PREFIX"
-source <(C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-repo-mode 2>/dev/null) || true
+source <(J:/myproject/gstack_antigravity/gstack/bin/gstack-repo-mode 2>/dev/null) || true
 REPO_MODE=${REPO_MODE:-unknown}
 echo "REPO_MODE: $REPO_MODE"
 _LAKE_SEEN=$([ -f ~/.gstack/.completeness-intro-seen ] && echo "yes" || echo "no")
 echo "LAKE_INTRO: $_LAKE_SEEN"
-_TEL=$(C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-config get telemetry 2>/dev/null || true)
+_TEL=$(J:/myproject/gstack_antigravity/gstack/bin/gstack-config get telemetry 2>/dev/null || true)
 _TEL_PROMPTED=$([ -f ~/.gstack/.telemetry-prompted ] && echo "yes" || echo "no")
 _TEL_START=$(date +%s)
 _SESSION_ID="$$-$(date +%s)"
@@ -62,15 +63,15 @@ fi
 # zsh-compatible: use find instead of glob to avoid NOMATCH error
 for _PF in $(find ~/.gstack/analytics -maxdepth 1 -name '.pending-*' 2>/dev/null); do
   if [ -f "$_PF" ]; then
-    if [ "$_TEL" != "off" ] && [ -x "C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-telemetry-log" ]; then
-      C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-telemetry-log --event-type skill_run --skill _pending_finalize --outcome unknown --session-id "$_SESSION_ID" 2>/dev/null || true
+    if [ "$_TEL" != "off" ] && [ -x "J:/myproject/gstack_antigravity/gstack/bin/gstack-telemetry-log" ]; then
+      J:/myproject/gstack_antigravity/gstack/bin/gstack-telemetry-log --event-type skill_run --skill _pending_finalize --outcome unknown --session-id "$_SESSION_ID" 2>/dev/null || true
     fi
     rm -f "$_PF" 2>/dev/null || true
   fi
   break
 done
 # Learnings count
-eval "$(C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-slug 2>/dev/null)" 2>/dev/null || true
+eval "$(J:/myproject/gstack_antigravity/gstack/bin/gstack-slug 2>/dev/null)" 2>/dev/null || true
 _LEARN_FILE="${GSTACK_HOME:-$HOME/.gstack}/projects/${SLUG:-unknown}/learnings.jsonl"
 if [ -f "$_LEARN_FILE" ]; then
   _LEARN_COUNT=$(wc -l < "$_LEARN_FILE" 2>/dev/null | tr -d ' ')
@@ -83,7 +84,7 @@ _HAS_ROUTING="no"
 if [ -f GEMINI.md ] && grep -q "## Skill routing" GEMINI.md 2>/dev/null; then
   _HAS_ROUTING="yes"
 fi
-_ROUTING_DECLINED=$(C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-config get routing_declined 2>/dev/null || echo "false")
+_ROUTING_DECLINED=$(J:/myproject/gstack_antigravity/gstack/bin/gstack-config get routing_declined 2>/dev/null || echo "false")
 echo "HAS_ROUTING: $_HAS_ROUTING"
 echo "ROUTING_DECLINED: $_ROUTING_DECLINED"
 ```
@@ -97,9 +98,9 @@ The user opted out of proactive behavior.
 If `SKILL_PREFIX` is `"true"`, the user has namespaced skill names. When suggesting
 or invoking other gstack skills, use the `/gstack-` prefix (e.g., `/gstack-qa` instead
 of `/qa`, `/gstack-ship` instead of `/ship`). Disk paths are unaffected — always use
-`C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/[skill-name]/SKILL.md` for reading skill files.
+`J:/myproject/gstack_antigravity/gstack/[skill-name]/SKILL.md` for reading skill files.
 
-If output shows `UPGRADE_AVAILABLE <old> <new>`: read `C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/gstack-upgrade/SKILL.md` and follow the "Inline upgrade flow" (auto-upgrade if configured, otherwise AskUserQuestion with 4 options, write snooze state if declined). If `JUST_UPGRADED <from> <to>`: tell user "Running gstack v{to} (just updated!)" and continue.
+If output shows `UPGRADE_AVAILABLE <old> <new>`: read `J:/myproject/gstack_antigravity/gstack/gstack-upgrade/SKILL.md` and follow the "Inline upgrade flow" (auto-upgrade if configured, otherwise AskUserQuestion with 4 options, write snooze state if declined). If `JUST_UPGRADED <from> <to>`: tell user "Running gstack v{to} (just updated!)" and continue.
 
 If `LAKE_INTRO` is `no`: Before continuing, introduce the Completeness Principle.
 Tell the user: "gstack follows the **Boil the Lake** principle — always do the complete
@@ -125,7 +126,7 @@ Options:
 - A) Help gstack get better! (recommended)
 - B) No thanks
 
-If A: run `C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-config set telemetry community`
+If A: run `J:/myproject/gstack_antigravity/gstack/bin/gstack-config set telemetry community`
 
 If B: ask a follow-up AskUserQuestion:
 
@@ -136,8 +137,8 @@ Options:
 - A) Sure, anonymous is fine
 - B) No thanks, fully off
 
-If B→A: run `C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-config set telemetry anonymous`
-If B→B: run `C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-config set telemetry off`
+If B→A: run `J:/myproject/gstack_antigravity/gstack/bin/gstack-config set telemetry anonymous`
+If B→B: run `J:/myproject/gstack_antigravity/gstack/bin/gstack-config set telemetry off`
 
 Always run:
 ```bash
@@ -157,8 +158,8 @@ Options:
 - A) Keep it on (recommended)
 - B) Turn it off — I'll type /commands myself
 
-If A: run `C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-config set proactive true`
-If B: run `C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-config set proactive false`
+If A: run `J:/myproject/gstack_antigravity/gstack/bin/gstack-config set proactive true`
+If B: run `J:/myproject/gstack_antigravity/gstack/bin/gstack-config set proactive false`
 
 Always run:
 ```bash
@@ -205,7 +206,7 @@ Key routing rules:
 
 Then commit the change: `git add GEMINI.md && git commit -m "chore: add gstack skill routing rules to GEMINI.md"`
 
-If B: run `C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-config set routing_declined true`
+If B: run `J:/myproject/gstack_antigravity/gstack/bin/gstack-config set routing_declined true`
 Say "No problem. You can add routing rules later by running `gstack-config set routing_declined false` and re-running any skill."
 
 This only happens once per project. If `HAS_ROUTING` is `yes` or `ROUTING_DECLINED` is `true`, skip this entirely.
@@ -293,7 +294,7 @@ Always flag anything that looks wrong — one sentence, what you noticed and its
 
 ## Search Before Building
 
-Before building anything unfamiliar, **search first.** See `C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/ETHOS.md`.
+Before building anything unfamiliar, **search first.** See `J:/myproject/gstack_antigravity/gstack/ETHOS.md`.
 - **Layer 1** (tried and true) — don't reinvent. **Layer 2** (new and popular) — scrutinize. **Layer 3** (first principles) — prize above all.
 
 **Eureka:** When first-principles reasoning contradicts conventional wisdom, name it and log:
@@ -365,8 +366,8 @@ rm -f ~/.gstack/analytics/.pending-"$_SESSION_ID" 2>/dev/null || true
 # Local + remote telemetry (both gated by _TEL setting)
 if [ "$_TEL" != "off" ]; then
   echo '{"skill":"SKILL_NAME","duration_s":"'"$_TEL_DUR"'","outcome":"OUTCOME","browse":"USED_BROWSE","session":"'"$_SESSION_ID"'","ts":"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'"}' >> ~/.gstack/analytics/skill-usage.jsonl 2>/dev/null || true
-  if [ -x C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-telemetry-log ]; then
-    C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-telemetry-log \
+  if [ -x J:/myproject/gstack_antigravity/gstack/bin/gstack-telemetry-log ]; then
+    J:/myproject/gstack_antigravity/gstack/bin/gstack-telemetry-log \
       --skill "SKILL_NAME" --duration "$_TEL_DUR" --outcome "OUTCOME" \
       --used-browse "USED_BROWSE" --session-id "$_SESSION_ID" 2>/dev/null &
   fi
@@ -403,7 +404,7 @@ When you are in plan mode and about to call ExitPlanMode:
 3. If it does NOT — run this command:
 
 \`\`\`bash
-C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-review-read
+J:/myproject/gstack_antigravity/gstack/bin/gstack-review-read
 \`\`\`
 
 Then write a `## GSTACK REVIEW REPORT` section to the end of the plan file:
@@ -477,7 +478,7 @@ When evaluating architecture, think "boring by default." When reviewing tests, t
 ### Design Doc Check
 ```bash
 setopt +o nomatch 2>/dev/null || true  # zsh compat
-SLUG=$(C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/browse/bin/remote-slug 2>/dev/null || basename "$(git rev-parse --show-toplevel 2>/dev/null || pwd)")
+SLUG=$(J:/myproject/gstack_antigravity/gstack/browse/bin/remote-slug 2>/dev/null || basename "$(git rev-parse --show-toplevel 2>/dev/null || pwd)")
 BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null | tr '/' '-' || echo 'no-branch')
 DESIGN=$(ls -t ~/.gstack/projects/$SLUG/*-$BRANCH-design-*.md 2>/dev/null | head -1)
 [ -z "$DESIGN" ] && DESIGN=$(ls -t ~/.gstack/projects/$SLUG/*-design-*.md 2>/dev/null | head -1)
@@ -509,7 +510,7 @@ If they choose A:
 Say: "Running /office-hours inline. Once the design doc is ready, I'll pick up
 the review right where we left off."
 
-Read the `/office-hours` skill file at `C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/office-hours/SKILL.md` using the Read tool.
+Read the `/office-hours` skill file at `J:/myproject/gstack_antigravity/gstack/office-hours/SKILL.md` using the Read tool.
 
 **If unreadable:** Skip with "Could not load /office-hours — skipping." and continue.
 
@@ -532,7 +533,7 @@ Execute every other section at full depth. When the loaded skill's instructions 
 After /office-hours completes, re-run the design doc check:
 ```bash
 setopt +o nomatch 2>/dev/null || true  # zsh compat
-SLUG=$(C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/browse/bin/remote-slug 2>/dev/null || basename "$(git rev-parse --show-toplevel 2>/dev/null || pwd)")
+SLUG=$(J:/myproject/gstack_antigravity/gstack/browse/bin/remote-slug 2>/dev/null || basename "$(git rev-parse --show-toplevel 2>/dev/null || pwd)")
 BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null | tr '/' '-' || echo 'no-branch')
 DESIGN=$(ls -t ~/.gstack/projects/$SLUG/*-$BRANCH-design-*.md 2>/dev/null | head -1)
 [ -z "$DESIGN" ] && DESIGN=$(ls -t ~/.gstack/projects/$SLUG/*-design-*.md 2>/dev/null | head -1)
@@ -578,12 +579,12 @@ Always work through the full interactive review: one section at a time (Architec
 Search for relevant learnings from previous sessions:
 
 ```bash
-_CROSS_PROJ=$(C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-config get cross_project_learnings 2>/dev/null || echo "unset")
+_CROSS_PROJ=$(J:/myproject/gstack_antigravity/gstack/bin/gstack-config get cross_project_learnings 2>/dev/null || echo "unset")
 echo "CROSS_PROJECT: $_CROSS_PROJ"
 if [ "$_CROSS_PROJ" = "true" ]; then
-  C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-learnings-search --limit 10 --cross-project 2>/dev/null || true
+  J:/myproject/gstack_antigravity/gstack/bin/gstack-learnings-search --limit 10 --cross-project 2>/dev/null || true
 else
-  C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-learnings-search --limit 10 2>/dev/null || true
+  J:/myproject/gstack_antigravity/gstack/bin/gstack-learnings-search --limit 10 2>/dev/null || true
 fi
 ```
 
@@ -598,8 +599,8 @@ Options:
 - A) Enable cross-project learnings (recommended)
 - B) Keep learnings project-scoped only
 
-If A: run `C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-config set cross_project_learnings true`
-If B: run `C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-config set cross_project_learnings false`
+If A: run `J:/myproject/gstack_antigravity/gstack/bin/gstack-config set cross_project_learnings true`
+If B: run `J:/myproject/gstack_antigravity/gstack/bin/gstack-config set cross_project_learnings false`
 
 Then re-run the search with the appropriate flag.
 
@@ -832,7 +833,7 @@ The plan should be complete enough that when implementation begins, every test i
 After producing the coverage diagram, write a test plan artifact to the project directory so `/qa` and `/qa-only` can consume it as primary test input:
 
 ```bash
-eval "$(C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-slug 2>/dev/null)" && mkdir -p ~/.gstack/projects/$SLUG
+eval "$(J:/myproject/gstack_antigravity/gstack/bin/gstack-slug 2>/dev/null)" && mkdir -p ~/.gstack/projects/$SLUG
 USER=$(whoami)
 DATETIME=$(date +%Y%m%d-%H%M%S)
 ```
@@ -999,7 +1000,7 @@ If no tension points exist, note: "No cross-model tension — both reviewers agr
 
 **Persist the result:**
 ```bash
-C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-review-log '{"skill":"codex-plan-review","timestamp":"'"$(date -u +%Y-%m-%dT%H:%M:%SZ)"'","status":"STATUS","source":"SOURCE","commit":"'"$(git rev-parse --short HEAD)"'"}'
+J:/myproject/gstack_antigravity/gstack/bin/gstack-review-log '{"skill":"codex-plan-review","timestamp":"'"$(date -u +%Y-%m-%dT%H:%M:%SZ)"'","status":"STATUS","source":"SOURCE","commit":"'"$(git rev-parse --short HEAD)"'"}'
 ```
 
 Substitute: STATUS = "clean" if no findings, "issues_found" if findings exist.
@@ -1123,7 +1124,7 @@ the same pattern. The review dashboard depends on this data. Skipping this
 command breaks the review readiness dashboard in /ship.
 
 ```bash
-C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-review-log '{"skill":"plan-eng-review","timestamp":"TIMESTAMP","status":"STATUS","unresolved":N,"critical_gaps":N,"issues_found":N,"mode":"MODE","commit":"COMMIT"}'
+J:/myproject/gstack_antigravity/gstack/bin/gstack-review-log '{"skill":"plan-eng-review","timestamp":"TIMESTAMP","status":"STATUS","unresolved":N,"critical_gaps":N,"issues_found":N,"mode":"MODE","commit":"COMMIT"}'
 ```
 
 Substitute values from the Completion Summary:
@@ -1140,7 +1141,7 @@ Substitute values from the Completion Summary:
 After completing the review, read the review log and config to display the dashboard.
 
 ```bash
-C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-review-read
+J:/myproject/gstack_antigravity/gstack/bin/gstack-review-read
 ```
 
 Parse the output. Find the most recent entry for each skill (plan-ceo-review, plan-eng-review, review, plan-design-review, design-review-lite, adversarial-review, codex-review, codex-plan-review). Ignore entries with timestamps older than 7 days. For the Eng Review row, show whichever is more recent between `review` (diff-scoped pre-landing review) and `plan-eng-review` (plan-stage architecture review). Append "(DIFF)" or "(PLAN)" to the status to distinguish. For the Adversarial row, show whichever is more recent between `adversarial-review` (new auto-scaled) and `codex-review` (legacy). For Design Review, show whichever is more recent between `plan-design-review` (full visual audit) and `design-review-lite` (code-level check). Append "(FULL)" or "(LITE)" to the status to distinguish. For the Outside Voice row, show the most recent `codex-plan-review` entry — this captures outside voices from both /plan-ceo-review and /plan-eng-review.

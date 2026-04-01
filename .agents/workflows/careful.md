@@ -1,5 +1,6 @@
 ---
-description: careful - Safety guardrails for destructive commands. Warns before rm -rf, DROP TABLE,
+name: careful
+description: "Safety guardrails for destructive commands. Warns before rm -rf, DROP TABLE,"
 ---
 // turbo-all
 

@@ -1,5 +1,6 @@
 ---
-description: benchmark - Performance regression detection using the browse daemon. Establishes
+name: benchmark
+description: "Performance regression detection using the browse daemon. Establishes"
 ---
 // turbo-all
 
@@ -29,27 +30,27 @@ description: benchmark - Performance regression detection using the browse daemo
 ## Preamble (run first)
 
 ```bash
-_UPD=$(C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-update-check 2>/dev/null || .claude/skills/gstack/bin/gstack-update-check 2>/dev/null || true)
+_UPD=$(J:/myproject/gstack_antigravity/gstack/bin/gstack-update-check 2>/dev/null || .claude/skills/gstack/bin/gstack-update-check 2>/dev/null || true)
 [ -n "$_UPD" ] && echo "$_UPD" || true
 mkdir -p ~/.gstack/sessions
 touch ~/.gstack/sessions/"$PPID"
 _SESSIONS=$(find ~/.gstack/sessions -mmin -120 -type f 2>/dev/null | wc -l | tr -d ' ')
 find ~/.gstack/sessions -mmin +120 -type f -exec rm {} + 2>/dev/null || true
-_CONTRIB=$(C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-config get gstack_contributor 2>/dev/null || true)
-_PROACTIVE=$(C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-config get proactive 2>/dev/null || echo "true")
+_CONTRIB=$(J:/myproject/gstack_antigravity/gstack/bin/gstack-config get gstack_contributor 2>/dev/null || true)
+_PROACTIVE=$(J:/myproject/gstack_antigravity/gstack/bin/gstack-config get proactive 2>/dev/null || echo "true")
 _PROACTIVE_PROMPTED=$([ -f ~/.gstack/.proactive-prompted ] && echo "yes" || echo "no")
 _BRANCH=$(git branch --show-current 2>/dev/null || echo "unknown")
 echo "BRANCH: $_BRANCH"
-_SKILL_PREFIX=$(C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-config get skill_prefix 2>/dev/null || echo "false")
+_SKILL_PREFIX=$(J:/myproject/gstack_antigravity/gstack/bin/gstack-config get skill_prefix 2>/dev/null || echo "false")
 echo "PROACTIVE: $_PROACTIVE"
 echo "PROACTIVE_PROMPTED: $_PROACTIVE_PROMPTED"
 echo "SKILL_PREFIX: $_SKILL_PREFIX"
-source <(C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-repo-mode 2>/dev/null) || true
+source <(J:/myproject/gstack_antigravity/gstack/bin/gstack-repo-mode 2>/dev/null) || true
 REPO_MODE=${REPO_MODE:-unknown}
 echo "REPO_MODE: $REPO_MODE"
 _LAKE_SEEN=$([ -f ~/.gstack/.completeness-intro-seen ] && echo "yes" || echo "no")
 echo "LAKE_INTRO: $_LAKE_SEEN"
-_TEL=$(C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-config get telemetry 2>/dev/null || true)
+_TEL=$(J:/myproject/gstack_antigravity/gstack/bin/gstack-config get telemetry 2>/dev/null || true)
 _TEL_PROMPTED=$([ -f ~/.gstack/.telemetry-prompted ] && echo "yes" || echo "no")
 _TEL_START=$(date +%s)
 _SESSION_ID="$$-$(date +%s)"
@@ -62,15 +63,15 @@ fi
 # zsh-compatible: use find instead of glob to avoid NOMATCH error
 for _PF in $(find ~/.gstack/analytics -maxdepth 1 -name '.pending-*' 2>/dev/null); do
   if [ -f "$_PF" ]; then
-    if [ "$_TEL" != "off" ] && [ -x "C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-telemetry-log" ]; then
-      C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-telemetry-log --event-type skill_run --skill _pending_finalize --outcome unknown --session-id "$_SESSION_ID" 2>/dev/null || true
+    if [ "$_TEL" != "off" ] && [ -x "J:/myproject/gstack_antigravity/gstack/bin/gstack-telemetry-log" ]; then
+      J:/myproject/gstack_antigravity/gstack/bin/gstack-telemetry-log --event-type skill_run --skill _pending_finalize --outcome unknown --session-id "$_SESSION_ID" 2>/dev/null || true
     fi
     rm -f "$_PF" 2>/dev/null || true
   fi
   break
 done
 # Learnings count
-eval "$(C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-slug 2>/dev/null)" 2>/dev/null || true
+eval "$(J:/myproject/gstack_antigravity/gstack/bin/gstack-slug 2>/dev/null)" 2>/dev/null || true
 _LEARN_FILE="${GSTACK_HOME:-$HOME/.gstack}/projects/${SLUG:-unknown}/learnings.jsonl"
 if [ -f "$_LEARN_FILE" ]; then
   _LEARN_COUNT=$(wc -l < "$_LEARN_FILE" 2>/dev/null | tr -d ' ')
@@ -83,7 +84,7 @@ _HAS_ROUTING="no"
 if [ -f GEMINI.md ] && grep -q "## Skill routing" GEMINI.md 2>/dev/null; then
   _HAS_ROUTING="yes"
 fi
-_ROUTING_DECLINED=$(C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-config get routing_declined 2>/dev/null || echo "false")
+_ROUTING_DECLINED=$(J:/myproject/gstack_antigravity/gstack/bin/gstack-config get routing_declined 2>/dev/null || echo "false")
 echo "HAS_ROUTING: $_HAS_ROUTING"
 echo "ROUTING_DECLINED: $_ROUTING_DECLINED"
 ```
@@ -97,9 +98,9 @@ The user opted out of proactive behavior.
 If `SKILL_PREFIX` is `"true"`, the user has namespaced skill names. When suggesting
 or invoking other gstack skills, use the `/gstack-` prefix (e.g., `/gstack-qa` instead
 of `/qa`, `/gstack-ship` instead of `/ship`). Disk paths are unaffected — always use
-`C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/[skill-name]/SKILL.md` for reading skill files.
+`J:/myproject/gstack_antigravity/gstack/[skill-name]/SKILL.md` for reading skill files.
 
-If output shows `UPGRADE_AVAILABLE <old> <new>`: read `C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/gstack-upgrade/SKILL.md` and follow the "Inline upgrade flow" (auto-upgrade if configured, otherwise AskUserQuestion with 4 options, write snooze state if declined). If `JUST_UPGRADED <from> <to>`: tell user "Running gstack v{to} (just updated!)" and continue.
+If output shows `UPGRADE_AVAILABLE <old> <new>`: read `J:/myproject/gstack_antigravity/gstack/gstack-upgrade/SKILL.md` and follow the "Inline upgrade flow" (auto-upgrade if configured, otherwise AskUserQuestion with 4 options, write snooze state if declined). If `JUST_UPGRADED <from> <to>`: tell user "Running gstack v{to} (just updated!)" and continue.
 
 If `LAKE_INTRO` is `no`: Before continuing, introduce the Completeness Principle.
 Tell the user: "gstack follows the **Boil the Lake** principle — always do the complete
@@ -125,7 +126,7 @@ Options:
 - A) Help gstack get better! (recommended)
 - B) No thanks
 
-If A: run `C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-config set telemetry community`
+If A: run `J:/myproject/gstack_antigravity/gstack/bin/gstack-config set telemetry community`
 
 If B: ask a follow-up AskUserQuestion:
 
@@ -136,8 +137,8 @@ Options:
 - A) Sure, anonymous is fine
 - B) No thanks, fully off
 
-If B→A: run `C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-config set telemetry anonymous`
-If B→B: run `C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-config set telemetry off`
+If B→A: run `J:/myproject/gstack_antigravity/gstack/bin/gstack-config set telemetry anonymous`
+If B→B: run `J:/myproject/gstack_antigravity/gstack/bin/gstack-config set telemetry off`
 
 Always run:
 ```bash
@@ -157,8 +158,8 @@ Options:
 - A) Keep it on (recommended)
 - B) Turn it off — I'll type /commands myself
 
-If A: run `C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-config set proactive true`
-If B: run `C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-config set proactive false`
+If A: run `J:/myproject/gstack_antigravity/gstack/bin/gstack-config set proactive true`
+If B: run `J:/myproject/gstack_antigravity/gstack/bin/gstack-config set proactive false`
 
 Always run:
 ```bash
@@ -205,7 +206,7 @@ Key routing rules:
 
 Then commit the change: `git add GEMINI.md && git commit -m "chore: add gstack skill routing rules to GEMINI.md"`
 
-If B: run `C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-config set routing_declined true`
+If B: run `J:/myproject/gstack_antigravity/gstack/bin/gstack-config set routing_declined true`
 Say "No problem. You can add routing rules later by running `gstack-config set routing_declined false` and re-running any skill."
 
 This only happens once per project. If `HAS_ROUTING` is `yes` or `ROUTING_DECLINED` is `true`, skip this entirely.
@@ -282,8 +283,8 @@ rm -f ~/.gstack/analytics/.pending-"$_SESSION_ID" 2>/dev/null || true
 # Local + remote telemetry (both gated by _TEL setting)
 if [ "$_TEL" != "off" ]; then
   echo '{"skill":"SKILL_NAME","duration_s":"'"$_TEL_DUR"'","outcome":"OUTCOME","browse":"USED_BROWSE","session":"'"$_SESSION_ID"'","ts":"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'"}' >> ~/.gstack/analytics/skill-usage.jsonl 2>/dev/null || true
-  if [ -x C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-telemetry-log ]; then
-    C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-telemetry-log \
+  if [ -x J:/myproject/gstack_antigravity/gstack/bin/gstack-telemetry-log ]; then
+    J:/myproject/gstack_antigravity/gstack/bin/gstack-telemetry-log \
       --skill "SKILL_NAME" --duration "$_TEL_DUR" --outcome "OUTCOME" \
       --used-browse "USED_BROWSE" --session-id "$_SESSION_ID" 2>/dev/null &
   fi
@@ -320,7 +321,7 @@ When you are in plan mode and about to call ExitPlanMode:
 3. If it does NOT — run this command:
 
 \`\`\`bash
-C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-review-read
+J:/myproject/gstack_antigravity/gstack/bin/gstack-review-read
 \`\`\`
 
 Then write a `## GSTACK REVIEW REPORT` section to the end of the plan file:
@@ -353,7 +354,7 @@ plan's living status.
 _ROOT=$(git rev-parse --show-toplevel 2>/dev/null)
 B=""
 [ -n "$_ROOT" ] && [ -x "$_ROOT/.claude/skills/gstack/browse/dist/browse" ] && B="$_ROOT/.claude/skills/gstack/browse/dist/browse"
-[ -z "$B" ] && B=C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/browse/dist/browse
+[ -z "$B" ] && B=J:/myproject/gstack_antigravity/gstack/browse/dist/browse
 if [ -x "$B" ]; then
   echo "READY: $B"
 else
@@ -405,7 +406,7 @@ When the user types `/benchmark`, run this skill.
 ### Phase 1: Setup
 
 ```bash
-eval "$(C:/Users/naoki/.gemini/antigravity/skills/gstack-antigravity/gstack/bin/gstack-slug 2>/dev/null || echo "SLUG=unknown")"
+eval "$(J:/myproject/gstack_antigravity/gstack/bin/gstack-slug 2>/dev/null || echo "SLUG=unknown")"
 mkdir -p .gstack/benchmark-reports
 mkdir -p .gstack/benchmark-reports/baselines
 ```

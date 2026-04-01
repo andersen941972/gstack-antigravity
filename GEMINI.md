@@ -14,8 +14,8 @@
 
 ## スキル・ルーティング
 
-ユーザーのリクエストが以下のスキルに該当する場合、常に最初の動作として **Skill ツール** を呼び出してください。直接回答したり、他のツールを先に使ったりしないでください。
-これらのスキルには専用のワークフローが定義されており、単純なチャット回答よりも高品質な結果が得られます。
+ユーザーのリクエストが以下のスキルに該当する場合、常に最初の動作として **Skill ツール** を呼び出してください。
+これらのスキルには専用のワークフローが定義されており、高精度な推論が提供されます。
 
 主要ルーティング・ルール:
 - プロダクトのアイデア、実現可能性の検討、ブレーンストーミング → invoke office-hours
@@ -23,11 +23,12 @@
 - シップ、デプロイ、プッシュ、PR作成 → invoke ship
 - QA、サイトのテスト、バグ発見 → invoke qa
 - コードレビュー、差分の確認 → invoke review
-- リリース後のドキュメント更新 → invoke document-release
+- リリーズ後のドキュメント更新 → invoke document-release
 - 週次レトロスペクティブ → invoke retro
 - デザインシステム、ブランド相談 → invoke design-consultation
 - ビジュアル監査、デザイン調整 → invoke design-review
 - アーキテクチャ・レビュー → invoke plan-eng-review
+- 自己反省、行動規範の確認、反省の実施 → invoke antigravity-reflection
 
 ## AI エージェント活用ガイド (GStack Workflow)
 

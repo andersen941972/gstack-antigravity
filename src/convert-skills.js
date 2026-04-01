@@ -94,7 +94,8 @@ function processFile(filePath, skillName) {
 `;
 
     const outputContent = `---
-description: ${finalName} - ${finalDescription}
+name: ${finalName}
+description: "${finalDescription.replace(/"/g, '\\"')}"
 ---
 // turbo-all
 
